@@ -1,4 +1,4 @@
-<include a CircleCI status badge, here>
+[![ttnguyen115](https://circleci.com/gh/ttnguyen115/devops-prj4-submission.svg?style=svg)](https://app.circleci.com/pipelines/github/ttnguyen115/devops-prj4-submission)
 
 ## Project Overview
 
@@ -44,7 +44,37 @@ source .devops/bin/activate
 
 ### Kubernetes Steps
 
-* Setup and Configure Docker locally
-* Setup and Configure Kubernetes locally
-* Create Flask app in Container
-* Run via kubectl
+* Setup/Configure Docker locally
+* Setup/Configure Kubernetes locally
+```bash
+    kubectl create secret docker-registry regcred \
+        --docker-server=https://index.docker.io/v1/ \
+        --docker-username=<DOCKERHUB_USERNAME> \
+        --docker-password=<DOCKERHUB_PASSWORD> \
+        --docker-email=<DOCKER_EMAIL>
+  ```
+* Create Flask app (making changes to app.py & build & push to dockerhub) in Container
+* Run the pod using kubectl
+
+* Here are some simple kubectl commands
+```bash
+    # See running pods
+    kubectl get pods
+    # View logs of a pod (when checking incoming request)
+    kubectl logs <POD_NAME>
+    # Port forward to forward a port in pod to host port (format: <HOST_PORT><POD_PORT>)
+    kubectl port-forward <HOST_PORT><POD_PORT>
+  ```
+
+### Folder Structure
+1. `.circleci/config.yml` : CircleCI configuration file.
+2. `model_data` : Trained model data for housing prices in Boston.
+3. `output_txt_files` : Docker and Kubernetes log output.
+4. `app.py` : REST app for serving request making house price prediction.
+5. `Dockerfile` : Dockerfile containing instructions to build image.
+6. `make_prediction.sh` : Simulates API call to make prediction.
+7. `Makefile` : Build file of the project.
+8. `requirements.txt` : Python required libraries.
+9. `run_docker.sh` : Shell script for creating and running docker container.
+10. `run_kubernetes.sh` : Shell script to deploy docker container on Kubernetes cluster.
+11. `upload_docker.sh` : Shell script for uploading locally built docker image to dockerhub repository.
